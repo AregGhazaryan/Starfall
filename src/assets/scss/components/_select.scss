@@ -1,0 +1,39 @@
+@import '../variables';
+@import '../animations/glow';
+@import '../mixins/input';
+
+.starlight-select {
+    @include input;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+
+    .starlight-options {
+        @include input;
+        transition: 0.3s;
+        transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+
+        & > button {
+            width: 100%;
+            &:hover {
+                animation: option-glow 1s ease-in-out infinite alternate;
+                text-decoration: underline;
+            }
+        }
+
+        &.open {
+            transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+            pointer-events: unset;
+            transition: 0.3s;
+            top: 50px;
+            opacity: 1;
+        }
+    }
+}
+
+@include glow($glow-color, option-glow);

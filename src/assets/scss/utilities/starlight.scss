@@ -1,0 +1,10 @@
+@import '../animations/glow.scss';
+
+.starlight{
+    &-white{
+        text-shadow: 0 0 1rem white;
+        animation: glow-white 2s ease-in-out infinite alternate;
+    }
+}
+
+@include glow(white, glow-white);

@@ -1,0 +1,10 @@
+@import '../variables';
+@import '../mixins/input';
+
+.starlight-input {
+    @include input;
+
+    &.block {
+        width: 100%;
+    }
+}

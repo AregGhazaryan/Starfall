@@ -1,0 +1,17 @@
+@import '../animations/box-glow.scss';
+
+@mixin input() {
+    border: 1px solid #a8ceff;
+    border-radius: 18px;
+    box-shadow: 0 0 16px $glow-color;
+    background: $default-bg;
+    color: white;
+    animation: box-glow 2s ease-in-out infinite alternate;
+    padding: 0.75rem 1rem;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+@include boxGlow($glow-color, box-glow);

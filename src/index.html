@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello World!</title>
+    </head>
+    <body class="bg-starfall-dark font-poiret">
+        <div class="mx-12 mt-36">
+            <h1 class="text-4xl text-white font-poiret starlight-white">StarFall</h1>
+            <form id="starfall-form" class="flex mx-16 mt-10">
+                <div id="starfall-method" class="text-center w-28 select focus:outline-none starlight-select">
+                    <span class="selected">Method</span>
+                    <div class="starlight-options">
+                        <button data-value="get">GET</button>
+                        <button data-value="post">POST</button>
+                        <button data-value="delete">DELETE</button>
+                        <button data-value="options">OPTIONS</button>
+                        <button data-value="put">PUT</button>
+                        <button data-value="patch">PATCH</button>
+                    </div>
+                </div>
+
+                <input id="starfall-url" class="block mx-4 starlight-input" placeholder="https://api.example.com" />
+
+                <input id="starfall-frequency" class="w-24 text-center starlight-input" type="number" value="60" />
+                <span class="flex items-center mx-4 text-xl text-white starlight-white">Per</span>
+
+                <div id="starfall-equator" data-selected="second" class="text-center w-28 select focus:outline-none starlight-select">
+                    <span class="selected">Second</span>
+                    <div class="starlight-options">
+                        <button data-value="second">Second</button>
+                        <button data-value="minute">Minute</button>
+                        <button data-value="hour">Hour</button>
+                    </div>
+                </div>
+                <span class="flex items-center mx-4 text-xl text-white starlight-white">Threads</span>
+            </form>
+        </div>
+    </body>
+</html>

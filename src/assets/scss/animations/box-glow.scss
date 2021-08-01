@@ -1,0 +1,11 @@
+@mixin boxGlow($color, $name){
+    @keyframes #{$name} {
+      from {
+        box-shadow: 0 0 10px $color;
+      }
+    
+      to {
+        box-shadow: 0 0 20px $color;
+      }
+    }
+}
