@@ -1,7 +1,8 @@
+import UIInterface from '../declarations/UIInterface';
 import Handlers from './Handlers';
 
-class UI extends Handlers implements UI {
-    public selects: NodeList;
+class UI extends Handlers implements UIInterface {
+    selects: NodeList;
 
     initialize() {
         this.initializeSelects();

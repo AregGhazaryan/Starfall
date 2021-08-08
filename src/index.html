@@ -7,33 +7,55 @@
     <body class="bg-starfall-dark font-poiret">
         <div class="mx-12 mt-36">
             <h1 class="text-4xl text-white font-poiret starlight-white">StarFall</h1>
-            <form id="starfall-form" class="flex mx-16 mt-10">
-                <div id="starfall-method" class="text-center w-28 select focus:outline-none starlight-select">
-                    <span class="selected">Method</span>
-                    <div class="starlight-options">
-                        <button data-value="get">GET</button>
-                        <button data-value="post">POST</button>
-                        <button data-value="delete">DELETE</button>
-                        <button data-value="options">OPTIONS</button>
-                        <button data-value="put">PUT</button>
-                        <button data-value="patch">PATCH</button>
+            <form id="starfall-form" class="flex mx-16 mt-16">
+                <div class="relative flex flex-col">
+                    <span class="absolute text-red-500 duration-500 ease-in-out opacity-0 pointer-events-none top-2 starlight-red whitespace-nowrap-red validator-method whitespace-nowrap"></span>
+                    <div name="starfall-method" class="text-center w-28 select focus:outline-none starlight-select">
+                        <span class="selected">Method</span>
+                        <div class="starlight-options">
+                            <button data-value="get">GET</button>
+                            <button data-value="post">POST</button>
+                            <button data-value="delete">DELETE</button>
+                            <button data-value="options">OPTIONS</button>
+                            <button data-value="put">PUT</button>
+                            <button data-value="patch">PATCH</button>
+                        </div>
                     </div>
                 </div>
 
-                <input id="starfall-url" class="block mx-4 starlight-input" placeholder="https://api.example.com" />
+                <div class="relative flex flex-col w-full mx-4">
+                    <span class="absolute text-red-500 duration-500 ease-in-out opacity-0 pointer-events-none top-2 starlight-red whitespace-nowrap validator-url"></span>
+                    <input name="starfall-url" class="block starlight-input" placeholder="https://api.example.com" />
+                </div>
 
-                <input id="starfall-frequency" class="w-24 text-center starlight-input" type="number" value="60" />
+                <div class="relative flex flex-col">
+                    <span class="absolute text-red-500 duration-500 ease-in-out opacity-0 pointer-events-none top-2 starlight-red whitespace-nowrap validator-frequency"></span>
+                    <input name="starfall-frequency" class="w-24 text-center starlight-input" type="number" value="60" />
+                </div>
+
                 <span class="flex items-center mx-4 text-xl text-white starlight-white">Per</span>
 
-                <div id="starfall-equator" data-selected="second" class="text-center w-28 select focus:outline-none starlight-select">
-                    <span class="selected">Second</span>
-                    <div class="starlight-options">
-                        <button data-value="second">Second</button>
-                        <button data-value="minute">Minute</button>
-                        <button data-value="hour">Hour</button>
+                <div class="relative flex flex-col">
+                    <span class="absolute text-red-500 duration-500 ease-in-out opacity-0 pointer-events-none top-2 starlight-red whitespace-nowrap validator-multiplier"></span>
+                    <div name="starfall-multiplier" class="text-center w-28 select focus:outline-none starlight-select">
+                        <span class="selected">Multiplier</span>
+                        <div class="starlight-options">
+                            <button data-value="second">Second</button>
+                            <button data-value="minute">Minute</button>
+                            <button data-value="hour">Hour</button>
+                        </div>
                     </div>
                 </div>
+
                 <span class="flex items-center mx-4 text-xl text-white starlight-white">Threads</span>
+                <div class="relative flex flex-col">
+                    <span class="absolute text-red-500 duration-500 ease-in-out opacity-0 pointer-events-none top-2 starlight-red whitespace-nowrap validator-threads"></span>
+                    <input name="starfall-threads" class="w-16 mr-4 text-center starlight-input" type="number" value="1" />
+                </div>
+
+                <button class="starlight-btn success" name="starfall-charge">Charge</button>
+
+                <button class="mx-4 starlight-btn danger" name="starfall-stop">Stop</button>
             </form>
         </div>
     </body>

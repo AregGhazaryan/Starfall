@@ -1,6 +1,8 @@
-class Handlers {
+import HandlersInterface from '../declarations/HandlersInterface';
 
-    private selectNodes: NodeList;
+class Handlers implements HandlersInterface {
+
+    selectNodes: NodeList;
 
     constructor() {
         this.selectNodes = document.querySelectorAll('.starlight-select');
@@ -14,13 +16,15 @@ class Handlers {
         });
     }
 
-    protected handleSelect(event: Event): Boolean {
+    handleSelect(event: Event): Boolean {
         const element = <HTMLDivElement>event.currentTarget;
 
         return element.querySelector('.starlight-options').classList.toggle('open')
     }
 
-    protected handleOption(event: Event): String {
+    handleOption(event: Event): String {
+        event.preventDefault();
+
         const option = <HTMLButtonElement>event.currentTarget;
         const value = option.dataset.value;
 

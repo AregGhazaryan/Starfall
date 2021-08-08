@@ -1,10 +1,16 @@
 @import '../animations/glow.scss';
+@import '../variables';
 
-.starlight{
-    &-white{
+.starlight {
+    &-white {
         text-shadow: 0 0 1rem white;
         animation: glow-white 2s ease-in-out infinite alternate;
+    }
+    &-red {
+        text-shadow: 0 0 1rem $red;
+        animation: glow-red 2s ease-in-out infinite alternate;
     }
 }
 
 @include glow(white, glow-white);
+@include glow($red, glow-red);

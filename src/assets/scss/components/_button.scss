@@ -1,0 +1,13 @@
+@import '../mixins/button.scss';
+
+.starlight-btn {
+    @include button($glow-color);
+
+    &.success {
+        @include button($green);
+    }
+
+    &.danger {
+        @include button($red);
+    }
+}
