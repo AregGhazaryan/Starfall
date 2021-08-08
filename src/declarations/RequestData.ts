@@ -14,9 +14,16 @@ export enum Multipliers {
 }
 
 export interface RequestData {
-    method: Methods,
-    url?: String,
-    frequency?: Number,
+    method?: Methods,
+    url?: string,
+    frequency?: number,
     multiplier?: Multipliers,
-    threads?: Number,
+    threads?: number,
+}
+
+export type Requests = {
+    requestCounter?: number,
+    succeeded?: number,
+    failed?: number,
+    sent?: number
 }
