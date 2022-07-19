@@ -16,13 +16,13 @@ class StarFall {
     };
     private threads: number[] = [];
 
-    public initialize() {
+    public initialize(): void {
         this.UI = new UI();
         this.UI.initialize();
         this.attachForm();
     }
 
-    private attachForm() {
+    private attachForm(): void {
         this.form = <HTMLFormElement>document.getElementById('starfall-form');
 
         const stop = this.form.querySelector('[name=starfall-stop]');
@@ -30,7 +30,7 @@ class StarFall {
         stop.addEventListener('click', (e: Event) => {
             e.preventDefault();
             this.stop();
-        })
+        });
 
         this.form.addEventListener('submit', (e: Event) => {
             e.preventDefault();
@@ -47,8 +47,8 @@ class StarFall {
                 url: urlElement,
                 frequency: frequencyElement,
                 multiplier: multiplierElement,
-                threads: threadsElement
-            }
+                threads: threadsElement,
+            };
 
             const validator = new Validator(form, <Elements>elements);
 
@@ -64,21 +64,21 @@ class StarFall {
 
             const multiplier = <Multipliers>multiplierElement.dataset.selected;
 
-            const threads = parseInt(threadsElement.value)
+            const threads = parseInt(threadsElement.value);
 
             this.requestData = {
                 method,
                 url,
                 frequency,
                 multiplier,
-                threads
-            }
+                threads,
+            };
 
             this.charge();
         });
     }
 
-    public charge() {
+    public charge(): void {
         // this.outgoingRequests = [];
         this.requests.requestCounter = 0;
         // this.lock = true;
@@ -140,7 +140,7 @@ class StarFall {
         }
     }
 
-    public showRequests() {
+    public showRequests(): void {
         const wrapper = document.querySelector('.starfall-requests');
 
         const succeeded = wrapper.querySelector('[data-ref=succeeded]');
@@ -152,7 +152,7 @@ class StarFall {
         sent.innerHTML = this.requests.sent.toString();
     }
 
-    public stop() {
+    public stop(): void {
         for (let i = 0; i < this.threads.length; i++) {
             clearInterval(this.threads[i]);
         }

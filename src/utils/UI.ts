@@ -4,21 +4,18 @@ import Handlers from './Handlers';
 class UI extends Handlers implements UIInterface {
     selects: NodeList;
 
-    initialize() {
+    initialize(): void {
         this.initializeSelects();
     }
 
-    initializeSelects() {
-        this.selects = document.querySelectorAll('.starlight-select')
+    initializeSelects(): void {
+        this.selects = document.querySelectorAll('.starlight-select');
 
-        this.selects.forEach(el => {
-            (el as HTMLElement).querySelectorAll('button').forEach(option =>
-                option.addEventListener('click', this.handleOption)
-            )
+        this.selects.forEach((el) => {
+            (el as HTMLElement).querySelectorAll('button').forEach((option) => option.addEventListener('click', this.handleOption));
 
-            el.addEventListener('click', this.handleSelect)
-
-        })
+            el.addEventListener('click', this.handleSelect);
+        });
     }
 }
 

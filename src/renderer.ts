@@ -27,9 +27,7 @@
  */
 
 import StarFall from './StarFall';
-const starfall = new StarFall;
+const starfall = new StarFall();
 starfall.initialize();
 
 import './assets/scss/master.scss';
-
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
