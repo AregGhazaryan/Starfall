@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { Multipliers, Methods, RequestData, Requests } from './declarations/RequestData';
 import { Elements } from './declarations/Validator';
 import UI from './utils/UI';
@@ -8,6 +8,7 @@ class StarFall {
     private UI: UI;
     private form: HTMLFormElement;
     private requestData: RequestData;
+    private lock: boolean;
     private requests: Requests = {};
     private multipliers = {
         second: 1000,
@@ -80,8 +81,9 @@ class StarFall {
 
     public charge(): void {
         // this.outgoingRequests = [];
+        if (this.lock) return;
         this.requests.requestCounter = 0;
-        // this.lock = true;
+        this.lock = true;
         // this.status = 'Making it rain stars';
         const frequency = this.multipliers[this.requestData.multiplier] / this.requestData.frequency;
 
@@ -106,8 +108,20 @@ class StarFall {
                 //             config.headers = { ...filledHeaders, ...config.headers };
                 //             return config;
                 //         });
+                const config = {
+                    url: this.requestData.url,
+                    method: this.requestData.method,
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'OPTIONS, DELETE, POST, GET, PATCH, PUT',
+                        'Access-Control-Allow-Headers': '*',
+                    },
+                    // params?: any;
+                    // data?: any;
+                    // timeout?: number;
+                } as AxiosRequestConfig;
 
-                axios[this.requestData.method](this.requestData.url)
+                axios(config)
                     .then(() => {
                         this.requests.succeeded += 1;
                         // this.outgoingRequests.push({
@@ -133,14 +147,14 @@ class StarFall {
                     .finally(() => {
                         // this.outgoingRequests = this.outgoingRequests.slice(-10);
                         this.requests.requestCounter += 1;
-                        this.showRequests();
+                        this.update();
                     });
             }, frequency);
             this.threads.push(interval);
         }
     }
 
-    public showRequests(): void {
+    public update(): void {
         const wrapper = document.querySelector('.starfall-requests');
 
         const succeeded = wrapper.querySelector('[data-ref=succeeded]');
@@ -156,6 +170,7 @@ class StarFall {
         for (let i = 0; i < this.threads.length; i++) {
             clearInterval(this.threads[i]);
         }
+        this.lock = false;
     }
 }
 

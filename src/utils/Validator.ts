@@ -2,9 +2,8 @@ import { Multipliers, Methods } from '../declarations/RequestData';
 import { Elements, Errors, ValidatorInterface } from '../declarations/Validator';
 
 class Validator implements ValidatorInterface {
-
     private form: HTMLFormElement;
-    private elements: Elements;
+    public elements: Elements;
     public errors: Errors = {};
 
     constructor(form: HTMLFormElement, elements: Elements) {
@@ -13,7 +12,7 @@ class Validator implements ValidatorInterface {
     }
 
     public validateForm(): void {
-        this.validateMethod()
+        this.validateMethod();
         this.validateUrl();
         this.validateFrequency();
         this.validateMultiplier();
@@ -29,8 +28,8 @@ class Validator implements ValidatorInterface {
             this.errors.method = message;
             this.fadeInMessage(placeholder, message);
         } else {
-            this.fadeOutMessage(placeholder)
-            delete this.errors.method
+            this.fadeOutMessage(placeholder);
+            delete this.errors.method;
         }
     }
 
@@ -43,8 +42,8 @@ class Validator implements ValidatorInterface {
             this.errors.url = message;
             this.fadeInMessage(placeholder, message);
         } else {
-            this.fadeOutMessage(placeholder)
-            delete this.errors.url
+            this.fadeOutMessage(placeholder);
+            delete this.errors.url;
         }
     }
 
@@ -57,22 +56,22 @@ class Validator implements ValidatorInterface {
             this.errors.frequency = message;
             this.fadeInMessage(placeholder, message);
         } else {
-            this.fadeOutMessage(placeholder)
-            delete this.errors.frequency
+            this.fadeOutMessage(placeholder);
+            delete this.errors.frequency;
         }
     }
 
     public validateMultiplier(): void {
         const multiplier = this.elements.multiplier.dataset.selected;
         const placeholder = this.form.querySelector('.validator-multiplier');
-
+        console.log(this.elements.multiplier.dataset);
         if (!(multiplier in Multipliers)) {
             const message = 'Invalid Multiplier';
             this.errors.multiplier = message;
             this.fadeInMessage(placeholder, message);
         } else {
             this.fadeOutMessage(placeholder);
-            delete this.errors.multiplier
+            delete this.errors.multiplier;
         }
     }
 
@@ -85,8 +84,8 @@ class Validator implements ValidatorInterface {
             this.errors.threads = message;
             this.fadeInMessage(placeholder, message);
         } else {
-            this.fadeOutMessage(placeholder)
-            delete this.errors.multiplier
+            this.fadeOutMessage(placeholder);
+            delete this.errors.multiplier;
         }
     }
 
@@ -94,7 +93,7 @@ class Validator implements ValidatorInterface {
         element.classList.remove('opacity-0');
         element.classList.remove('top-2');
         element.classList.add('opacity-100');
-        element.classList.add('top-14')
+        element.classList.add('top-14');
         element.innerHTML = message;
     }
 
@@ -102,7 +101,7 @@ class Validator implements ValidatorInterface {
         element.classList.add('opacity-0');
         element.classList.add('top-2');
         element.classList.remove('opacity-100');
-        element.classList.remove('top-14')
+        element.classList.remove('top-14');
     }
 }
 
