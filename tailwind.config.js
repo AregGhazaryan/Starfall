@@ -1,20 +1,20 @@
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {
-        colors:{
-            starfall:{
-                dark: '#0A132D'
-            }
+    purge: [],
+    darkMode: false, // or 'media' or 'class'
+    theme: {
+        extend: {
+            colors: {
+                starfall: {
+                    dark: '#0A132D',
+                },
+            },
+            fontFamily: {
+                poiret: ['Poiret'],
+            },
         },
-        fontFamily: {
-            'poiret': ["Poiret"],
-        }
     },
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
-}
+    variants: {
+        extend: {},
+    },
+    plugins: [],
+};

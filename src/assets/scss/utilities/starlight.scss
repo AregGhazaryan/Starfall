@@ -14,8 +14,13 @@
         text-shadow: 0 0 1rem $green;
         animation: glow-green 2s ease-in-out infinite alternate;
     }
+    &-yellow {
+        text-shadow: 0 0 0.2rem $yellow;
+        animation: glow-yellow 2s ease-in-out infinite alternate;
+    }
 }
 
 @include glow(white, glow-white);
 @include glow($red, glow-red);
 @include glow($green, glow-green);
+@include glow($yellow, glow-yellow);

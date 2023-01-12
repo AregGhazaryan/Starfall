@@ -1,18 +1,18 @@
-export type Elements = {
-    method: HTMLElement,
-    url: HTMLInputElement,
-    frequency: HTMLInputElement,
-    multiplier: HTMLElement,
-    threads: HTMLInputElement
-}
+export type ValidatorComponent = {
+    name: string;
+    element: HTMLElement | HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement;
+    placeholder: HTMLElement;
+};
+
+export type ValidatorComponents = ValidatorComponent[];
 
 export type Errors = {
-    method?: string,
-    url?: string,
-    frequency?: string,
-    multiplier?: string,
-    threads?: string
-}
+    method?: string;
+    url?: string;
+    frequency?: string;
+    multiplier?: string;
+    threads?: string;
+};
 
 export interface ValidatorInterface {
     errors: Errors;
@@ -28,8 +28,4 @@ export interface ValidatorInterface {
     validateMultiplier(): void;
 
     validateThreads(): void;
-
-    fadeInMessage(element: Element, message: string): void;
-
-    fadeOutMessage(element: Element): void;
 }

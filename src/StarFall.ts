@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { Multipliers, Methods, RequestData, Requests } from './declarations/RequestData';
-import { Elements } from './declarations/Validator';
+import { AnimationNames } from './declarations/Animations';
+import { Multipliers, Methods, RequestData, Requests, RequestLog } from './declarations/Requests';
+import { ValidatorComponents } from './declarations/Validator';
+import Animations from './utils/Animations';
 import UI from './utils/UI';
 import Validator from './utils/Validator';
 
@@ -10,12 +12,13 @@ class StarFall {
     private requestData: RequestData;
     private lock: boolean;
     private requests: Requests = {};
+    private threads: number[] = [];
+    private requestLogs: RequestLog[] = [];
     private multipliers = {
         second: 1000,
         minute: 60000,
         hour: 3600000,
     };
-    private threads: number[] = [];
 
     public initialize(): void {
         this.UI = new UI();
@@ -38,24 +41,32 @@ class StarFall {
             const form = <HTMLFormElement>e.currentTarget;
 
             const methodElement = <HTMLElement>form.querySelector('[name=starfall-method]');
+            const methodPlaceholder = <HTMLElement>this.form.querySelector('.validator-method');
             const urlElement = <HTMLInputElement>form.querySelector('[name=starfall-url]');
+            const urlPlaceholder = <HTMLElement>this.form.querySelector('.validator-url');
             const frequencyElement = <HTMLInputElement>form.querySelector('[name=starfall-frequency]');
+            const frequencyPlaceholder = <HTMLElement>this.form.querySelector('.validator-frequency');
             const multiplierElement = <HTMLInputElement>form.querySelector('[name=starfall-multiplier]');
+            const multiplierPlaceholder = <HTMLElement>this.form.querySelector('.validator-multiplier');
             const threadsElement = <HTMLInputElement>form.querySelector('[name=starfall-threads]');
+            const threadsPlaceholder = <HTMLElement>this.form.querySelector('.validator-threads');
 
-            const elements = {
-                method: methodElement,
-                url: urlElement,
-                frequency: frequencyElement,
-                multiplier: multiplierElement,
-                threads: threadsElement,
-            };
+            const components = [
+                { name: 'method', element: methodElement, placeholder: methodPlaceholder },
+                { name: 'url', element: urlElement, placeholder: urlPlaceholder },
+                { name: 'frequency', element: frequencyElement, placeholder: frequencyPlaceholder },
+                { name: 'multiplier', element: multiplierElement, placeholder: multiplierPlaceholder },
+                { name: 'threads', element: threadsElement, placeholder: threadsPlaceholder },
+            ] as ValidatorComponents;
 
-            const validator = new Validator(form, <Elements>elements);
+            const validator = new Validator(components);
 
             validator.validateForm();
 
-            if (Object.keys(validator.errors).length) return;
+            if (Object.keys(validator.errors).length) {
+                validator.displayErrors();
+                return;
+            }
 
             const method = <Methods>methodElement.dataset.selected;
 
@@ -80,7 +91,7 @@ class StarFall {
     }
 
     public charge(): void {
-        // this.outgoingRequests = [];
+        Animations.animateSelector('.starlight-interruption', AnimationNames.FadeOut);
         if (this.lock) return;
         this.requests.requestCounter = 0;
         this.lock = true;
@@ -90,6 +101,9 @@ class StarFall {
         this.requests.succeeded = 0;
         this.requests.failed = 0;
         this.requests.sent = 0;
+
+        let counter = 1;
+
         for (let i = 0; i < this.requestData.threads; i += 1) {
             const interval = window.setInterval(() => {
                 this.requests.sent += 1;
@@ -108,53 +122,61 @@ class StarFall {
                 //             config.headers = { ...filledHeaders, ...config.headers };
                 //             return config;
                 //         });
+                const url = new URL(this.requestData.url);
                 const config = {
-                    url: this.requestData.url,
+                    url: url.href,
                     method: this.requestData.method,
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': 'OPTIONS, DELETE, POST, GET, PATCH, PUT',
-                        'Access-Control-Allow-Headers': '*',
-                    },
                     // params?: any;
                     // data?: any;
                     // timeout?: number;
                 } as AxiosRequestConfig;
 
                 axios(config)
-                    .then(() => {
+                    .then((response) => {
                         this.requests.succeeded += 1;
-                        // this.outgoingRequests.push({
-                        //     no: this.requestCounter,
-                        //     url: this.url,
-                        //     status: 'Succeded',
-                        //     code: res.status,
-                        //     data: res.data,
-                        //     method: this.method,
-                        // });
+                        const log = {
+                            no: counter,
+                            url: url.pathname,
+                            status: 'Succeeded',
+                            code: response.status || 'NETWORK/CORS',
+                            method: this.requestData.method,
+                        };
+
+                        this.requestLogs.push(log);
                     })
-                    .catch(() => {
+                    .catch((err) => {
+                        const { response } = err;
                         this.requests.failed += 1;
-                        // this.outgoingRequests.push({
-                        //     no: this.requestCounter,
-                        //     url: this.url,
-                        //     status: 'Failed',
-                        //     code: err.response ? err.response.status : 'NETWORK/CORS',
-                        //     data: err.response ? err.response.data : null,
-                        //     method: this.method,
-                        // });
+                        const log = {
+                            no: counter,
+                            url: url.pathname,
+                            status: 'Failed',
+                            code: response?.status || 'NETWORK/CORS',
+                            method: this.requestData.method,
+                        };
+
+                        this.requestLogs.push(log);
+
+                        if (err.response) {
+                            if (err.response.status === 429) {
+                                this.interrupt();
+                            }
+                        } else {
+                            console.log(err);
+                        }
                     })
                     .finally(() => {
-                        // this.outgoingRequests = this.outgoingRequests.slice(-10);
+                        ++counter;
+                        this.requestLogs = this.requestLogs.slice(-10);
                         this.requests.requestCounter += 1;
-                        this.update();
+                        this.updateRequests();
                     });
             }, frequency);
             this.threads.push(interval);
         }
     }
 
-    public update(): void {
+    public updateRequests(): void {
         const wrapper = document.querySelector('.starfall-requests');
 
         const succeeded = wrapper.querySelector('[data-ref=succeeded]');
@@ -164,6 +186,41 @@ class StarFall {
         succeeded.innerHTML = this.requests.succeeded.toString();
         failed.innerHTML = this.requests.failed.toString();
         sent.innerHTML = this.requests.sent.toString();
+
+        const tableWrapper = document.querySelector('.starfall-requests-table');
+
+        const tbody = tableWrapper.querySelector('tbody');
+
+        const lastItem = this.requestLogs[this.requestLogs.length - 1];
+
+        const tr = document.createElement('tr');
+
+        const no = document.createElement('td');
+        no.innerHTML = lastItem.no.toString();
+
+        const url = document.createElement('td');
+        url.innerHTML = lastItem.url;
+
+        const method = document.createElement('td');
+        method.innerHTML = lastItem.method;
+
+        const status = document.createElement('td');
+        status.innerHTML = lastItem.status;
+
+        const code = document.createElement('td');
+        code.innerHTML = lastItem.code.toString();
+
+        tr.appendChild(no);
+        tr.appendChild(url);
+        tr.appendChild(method);
+        tr.appendChild(status);
+        tr.appendChild(code);
+
+        tbody.appendChild(tr);
+
+        if (tbody.childElementCount > 10) {
+            tbody.removeChild(tbody.firstChild);
+        }
     }
 
     public stop(): void {
@@ -171,6 +228,11 @@ class StarFall {
             clearInterval(this.threads[i]);
         }
         this.lock = false;
+    }
+
+    public interrupt(): void {
+        this.stop();
+        Animations.animateSelector('.starlight-interruption', AnimationNames.FadeIn);
     }
 }
 

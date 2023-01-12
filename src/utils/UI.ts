@@ -4,11 +4,11 @@ import Handlers from './Handlers';
 class UI extends Handlers implements UIInterface {
     selects: NodeList;
 
-    initialize(): void {
+    public initialize(): void {
         this.initializeSelects();
     }
 
-    initializeSelects(): void {
+    public initializeSelects(): void {
         this.selects = document.querySelectorAll('.starlight-select');
 
         this.selects.forEach((el) => {
