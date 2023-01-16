@@ -95,7 +95,6 @@ class StarFall {
         if (this.lock) return;
         this.requests.requestCounter = 0;
         this.lock = true;
-        // this.status = 'Making it rain stars';
         const frequency = this.multipliers[this.requestData.multiplier] / this.requestData.frequency;
 
         this.requests.succeeded = 0;
@@ -108,27 +107,10 @@ class StarFall {
             const interval = window.setInterval(() => {
                 this.requests.sent += 1;
 
-                //         // Create an object from headers array
-                //         const filledHeaders = {};
-                //         this.headers.map((i) => {
-                //             if (i.key && i.value) {
-                //                 filledHeaders[i.key] = i.value;
-                //             }
-                //             return { ...filledHeaders };
-                //         });
-
-                //         // Set headers
-                //         this.$http.interceptors.request.use((config) => {
-                //             config.headers = { ...filledHeaders, ...config.headers };
-                //             return config;
-                //         });
                 const url = new URL(this.requestData.url);
                 const config = {
                     url: url.href,
                     method: this.requestData.method,
-                    // params?: any;
-                    // data?: any;
-                    // timeout?: number;
                 } as AxiosRequestConfig;
 
                 axios(config)
@@ -136,6 +118,7 @@ class StarFall {
                         this.requests.succeeded += 1;
                         const log = {
                             no: counter,
+                            timestamp: new Date(),
                             url: url.pathname,
                             status: 'Succeeded',
                             code: response.status || 'NETWORK/CORS',
@@ -149,6 +132,7 @@ class StarFall {
                         this.requests.failed += 1;
                         const log = {
                             no: counter,
+                            timestamp: new Date(),
                             url: url.pathname,
                             status: 'Failed',
                             code: response?.status || 'NETWORK/CORS',
@@ -166,10 +150,10 @@ class StarFall {
                         }
                     })
                     .finally(() => {
-                        ++counter;
                         this.requestLogs = this.requestLogs.slice(-10);
                         this.requests.requestCounter += 1;
                         this.updateRequests();
+                        counter += 1;
                     });
             }, frequency);
             this.threads.push(interval);
@@ -198,6 +182,9 @@ class StarFall {
         const no = document.createElement('td');
         no.innerHTML = lastItem.no.toString();
 
+        const timestamp = document.createElement('td');
+        timestamp.innerHTML = lastItem.timestamp.toLocaleTimeString();
+
         const url = document.createElement('td');
         url.innerHTML = lastItem.url;
 
@@ -211,6 +198,7 @@ class StarFall {
         code.innerHTML = lastItem.code.toString();
 
         tr.appendChild(no);
+        tr.appendChild(timestamp);
         tr.appendChild(url);
         tr.appendChild(method);
         tr.appendChild(status);

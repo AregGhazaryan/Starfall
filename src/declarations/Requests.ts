@@ -30,6 +30,7 @@ export type Requests = {
 
 export type RequestLog = {
     no: number;
+    timestamp: Date;
     url: string;
     status: string;
     code: number | string;

@@ -1,8 +1,8 @@
 {
-  "name": "starfall-typescript",
-  "productName": "starfall-typescript",
+  "name": "starfall",
+  "productName": "Starfall",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Test your APIs with Starfall",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",

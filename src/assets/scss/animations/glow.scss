@@ -1,11 +1,23 @@
-@mixin glow($color, $name){
+@mixin glow($color, $name) {
     @keyframes #{$name} {
-      from {
-        text-shadow: 0 0 10px $color, 0 0 30px $color, 0 0 40px $color;
-      }
-    
-      to {
-        text-shadow: 0 0 10px $color, 0 0 20px $color, 0 0 30px $color;
-      }
+        from {
+            text-shadow: 0 0 10px $color, 0 0 30px $color, 0 0 40px $color;
+        }
+
+        to {
+            text-shadow: 0 0 10px $color, 0 0 20px $color, 0 0 30px $color;
+        }
+    }
+}
+
+@mixin boxGlow($color, $name) {
+    @keyframes #{$name} {
+        from {
+            box-shadow: 0 0 10px $color, 0 0 10px $color, 0 0 10px $color;
+        }
+
+        to {
+            box-shadow: 0 0 10px $color;
+        }
     }
 }

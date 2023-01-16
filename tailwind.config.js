@@ -5,11 +5,14 @@ module.exports = {
         extend: {
             colors: {
                 starfall: {
-                    dark: '#0A132D',
+                    dark: '#050917',
                 },
             },
             fontFamily: {
                 poiret: ['Poiret'],
+            },
+            zIndex: {
+                '-10': '-10',
             },
         },
     },
