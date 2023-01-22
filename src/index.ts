@@ -18,6 +18,9 @@ const createWindow = (): void => {
         height: 600,
         width: 800,
         icon: __dirname + '/src/assets/img/starfall.png',
+        webPreferences: {
+            webSecurity: false,
+        },
     });
 
     // and load the index.html of the app.
