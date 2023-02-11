@@ -16,24 +16,46 @@ Menu.setApplicationMenu(null);
 
 const createWindow = (): void => {
     // Create the browser window.
+    const loading = new BrowserWindow({
+        width: 800,
+        height: 800,
+        show: false,
+        frame: false,
+        resizable: false,
+    });
+
     const mainWindow = new BrowserWindow({
         height: 800,
         width: 1300,
         minWidth: 1200,
         icon: '/src/assets/img/icon',
+        show: false,
         webPreferences: {
             webSecurity: false,
             devTools: false,
         },
     });
 
+    loading.once('show', () => {
+        mainWindow.webContents.once('dom-ready', () => {
+            setTimeout(() => {
+                mainWindow.show();
+                loading.hide();
+                loading.close();
+            }, 1000);
+        });
+        // long loading html
+        mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+    });
+
+    loading.loadFile('./src/splash.html');
+    loading.show();
     // and load the index.html of the app.
-    mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
     globalShortcut.register('Control+Shift+I', () => {
-        // When the user presses Ctrl + Shift + I, this function will get called
-        // You can modify this function to do other things, but if you just want
-        // to disable the shortcut, you can just return false
+        //     // When the user presses Ctrl + Shift + I, this function will get called
+        //     // You can modify this function to do other things, but if you just want
+        //     // to disable the shortcut, you can just return false
         return false;
     });
 };

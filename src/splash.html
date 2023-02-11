@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Loading...</title>
+        <style>
+            @font-face {
+                font-family: 'Poiret';
+                src: url('../src/assets/webfonts/PoiretOne-Regular.ttf');
+            }
+
+            body {
+                background-color: #050917;
+            }
+
+            .logo {
+                height: 500px;
+                width: 500px;
+
+                margin: auto;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+
+                transition: all 0.5s ease-out;
+                animation: glowUp 2s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
+            }
+
+            @keyframes glowUp {
+                0% {
+                    transform: scale(0.8);
+                    filter: brightness(1);
+                }
+                50% {
+                    transform: scale(0.9);
+                    filter: brightness(1.5);
+                }
+                100% {
+                    transform: scale(0.8);
+                    filter: brightness(1);
+                }
+            }
+
+            .loading-text {
+                color: #fff;
+                font-size: 50px;
+                font-family: 'Poiret', Tahoma, Geneva, Verdana, sans-serif;
+                position: absolute;
+                left: 0;
+                bottom: 10%;
+                right: 0;
+                margin: auto;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <img class="logo" src="../src/assets/img/icon.png" />
+        <div class="loading-text">Loading...</div>
+    </body>
+</html>
