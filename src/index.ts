@@ -5,6 +5,14 @@ import { app, BrowserWindow, globalShortcut, Menu } from 'electron';
 // plugin that tells the Electron app where to look for the Webpack-bundled app code (depending on
 // whether you're running in development or production).
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+declare const SPLASH_WINDOW_WEBPACK_ENTRY: string;
+
+function isDev() {
+    const isEnvSet = 'ELECTRON_IS_DEV' in process.env;
+    const getFromEnv = Number.parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
+
+    return isEnvSet ? getFromEnv : !app.isPackaged;
+}
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -48,7 +56,7 @@ const createWindow = (): void => {
         mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
     });
 
-    loading.loadFile('./src/splash.html');
+    loading.loadURL(SPLASH_WINDOW_WEBPACK_ENTRY);
     loading.show();
     // and load the index.html of the app.
 

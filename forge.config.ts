@@ -30,6 +30,11 @@ const config: ForgeConfig = {
                             js: './src/preload.ts',
                         },
                     },
+                    {
+                        html: './src/splash.html',
+                        name: 'splash_window',
+                        js: './src/splash.ts',
+                    },
                 ],
             },
         }),
