@@ -7,6 +7,7 @@ module.exports = {
             colors: {
                 starfall: {
                     dark: '#050917',
+                    darker: '#04060E',
                 },
             },
             fontFamily: {
