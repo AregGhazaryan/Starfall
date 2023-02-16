@@ -20,13 +20,19 @@ if (require('electron-squirrel-startup')) {
     app.quit();
 }
 
-Menu.setApplicationMenu(null);
+if (!isDev()) {
+    Menu.setApplicationMenu(null);
+
+    globalShortcut.register('Control+Shift+I', () => {
+        return false;
+    });
+}
 
 const createWindow = (): void => {
     // Create the browser window.
     const loading = new BrowserWindow({
-        width: 800,
-        height: 800,
+        width: 600,
+        height: 600,
         show: false,
         frame: false,
         resizable: false,
@@ -36,6 +42,7 @@ const createWindow = (): void => {
         height: 800,
         width: 1300,
         minWidth: 1200,
+        minHeight: 550,
         icon: '/src/assets/img/icon',
         show: false,
         webPreferences: {
@@ -59,13 +66,6 @@ const createWindow = (): void => {
     loading.loadURL(SPLASH_WINDOW_WEBPACK_ENTRY);
     loading.show();
     // and load the index.html of the app.
-
-    globalShortcut.register('Control+Shift+I', () => {
-        //     // When the user presses Ctrl + Shift + I, this function will get called
-        //     // You can modify this function to do other things, but if you just want
-        //     // to disable the shortcut, you can just return false
-        return false;
-    });
 };
 
 // This method will be called when Electron has finished

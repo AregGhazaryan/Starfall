@@ -1,7 +1,7 @@
 import UIInterface from '../declarations/UIInterface';
 import Handlers from './Handlers';
 import Helpers from './Helpers';
-
+import { version } from '../../package.json';
 class UI extends Handlers implements UIInterface {
     selects: NodeList;
 
@@ -9,6 +9,7 @@ class UI extends Handlers implements UIInterface {
         this.initializeEvents();
         this.initializeSelects();
         this.fabricateUniverse();
+        this.injectVersion();
     }
 
     public initializeEvents(): void {
@@ -43,6 +44,17 @@ class UI extends Handlers implements UIInterface {
             ctx.shadowColor = 'white';
             ctx.fillRect(xPos, yPos, size, size);
         }
+    }
+
+    public injectVersion(): void {
+        const versionElement = document.createElement('div');
+        versionElement.classList.add('starfall-version');
+        versionElement.classList.add('absolute');
+        versionElement.classList.add('bottom-1');
+        versionElement.classList.add('right-2');
+        versionElement.classList.add('text-white');
+        versionElement.innerHTML = `v${version}`;
+        document.body.appendChild(versionElement);
     }
 }
 
