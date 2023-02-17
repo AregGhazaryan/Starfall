@@ -20,15 +20,15 @@ if (require('electron-squirrel-startup')) {
     app.quit();
 }
 
-if (!isDev()) {
-    Menu.setApplicationMenu(null);
-
-    globalShortcut.register('Control+Shift+I', () => {
-        return false;
-    });
-}
-
 const createWindow = (): void => {
+    if (!isDev()) {
+        Menu.setApplicationMenu(null);
+
+        globalShortcut.register('Control+Shift+I', () => {
+            return false;
+        });
+    }
+
     // Create the browser window.
     const loading = new BrowserWindow({
         width: 600,

@@ -11,9 +11,15 @@ import { rendererConfig } from './webpack.renderer.config';
 const config: ForgeConfig = {
     packagerConfig: {
         icon: 'src/assets/img/icon',
+        executableName: 'starfall',
     },
     rebuildConfig: {},
-    makers: [new MakerSquirrel({ iconUrl: 'https://lightfor.ge/starfall.ico' }), new MakerZIP({}, ['darwin', 'linux']), new MakerRpm({}), new MakerDeb({})],
+    makers: [
+        new MakerSquirrel({ iconUrl: 'https://lightfor.ge/starfall.ico' }),
+        new MakerZIP({}, ['darwin', 'linux']),
+        new MakerRpm({}),
+        new MakerDeb({ options: { icon: 'src/assets/img/icon.png' } }),
+    ],
     plugins: [
         new WebpackPlugin({
             devContentSecurityPolicy:
